@@ -160,8 +160,9 @@ function App() {
         }
       }
     });
-
-    setSum(result.toString());
+    if (result === Infinity || result === -Infinity) {
+      setSum('오류');
+    } else setSum(result.toString());
   };
 
   const defaultValue = sum === '' ? 0 : sum;
