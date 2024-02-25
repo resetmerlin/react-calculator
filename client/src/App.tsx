@@ -12,15 +12,25 @@ function App() {
 
     [...sum].forEach((str) => hash.set(str, hash.get(str) + 1 || 1));
 
-    const strHasDivide = hash.get('/') ? hash.get('/') * 3 + hash.get('/') : 0;
-    const strHasMultiply = hash.get('X')
+    const strWithDivideLength = hash.get('/')
+      ? hash.get('/') * 3 + hash.get('/')
+      : 0;
+    const strWithMultiplyLength = hash.get('X')
       ? hash.get('X') * 3 + hash.get('X')
       : 0;
-    const strHasMinus = hash.get('-') ? hash.get('-') * 3 + hash.get('-') : 0;
-    const strHasPlus = hash.get('+') ? hash.get('+') * 3 + hash.get('+') : 0;
+    const strWithMinusLength = hash.get('-')
+      ? hash.get('-') * 3 + hash.get('-')
+      : 0;
+    const strWithPlusLength = hash.get('+')
+      ? hash.get('+') * 3 + hash.get('+')
+      : 0;
 
     const maxLength =
-      3 + strHasDivide + strHasMultiply + strHasMinus + strHasPlus;
+      3 +
+      strWithDivideLength +
+      strWithMultiplyLength +
+      strWithMinusLength +
+      strWithPlusLength;
 
     if (sum.length >= maxLength) {
       alert('숫자는 세 자리까지만 입력 가능합니다!');
@@ -114,7 +124,44 @@ function App() {
   };
 
   const getResult = () => {
-    const parts = [...sum].join('').split(/X|\+|\-|\//);
+    const expression = sum.replace(/X/g, '*');
+
+    const parts = expression.split(/(\+|-|\*|\/)/g);
+
+    let result = 0;
+    let currentOperation = '+';
+
+    parts.forEach((part) => {
+      if (['+', '-', '*', '/'].includes(part)) {
+        currentOperation = part;
+      } else {
+        const number = parseFloat(part);
+        if (!Number.isNaN(number)) {
+          switch (currentOperation) {
+            case '+':
+              result += number;
+              break;
+            case '-':
+              result -= number;
+              break;
+            case '*':
+              result *= number;
+              break;
+            case '/':
+              if (number === 0) {
+                alert('Cannot divide by zero!');
+                return;
+              }
+              result = Math.floor(result / number);
+              break;
+            default:
+              console.error('Unexpected operator', currentOperation);
+          }
+        }
+      }
+    });
+
+    setSum(result.toString());
   };
 
   const defaultValue = sum === '' ? 0 : sum;
