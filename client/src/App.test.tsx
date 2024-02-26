@@ -10,7 +10,8 @@ describe('Calculator', () => {
     render(<App />);
     await userEvent.click(screen.getByText('1'));
     await userEvent.click(screen.getByText('2'));
-    expect(screen.getByText('12')).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('12');
   });
 
   it('prevents adding digits if the length is bigger than 3', async () => {
@@ -44,13 +45,39 @@ describe('Calculator', () => {
     );
   });
 
-  it('computes the correct result for an expression', async () => {
+  it('computes the correct result for a division', async () => {
     render(<App />);
     await userEvent.click(screen.getByText('6'));
     await userEvent.click(screen.getByText('/'));
     await userEvent.click(screen.getByText('3'));
     await userEvent.click(screen.getByText('='));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('2');
+  });
 
-    expect(screen.getByText('2')).toBeInTheDocument();
+  it('computes the correct result for a multiplication', async () => {
+    render(<App />);
+    await userEvent.click(screen.getByText('6'));
+    await userEvent.click(screen.getByText('X'));
+    await userEvent.click(screen.getByText('3'));
+    await userEvent.click(screen.getByText('='));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('18');
+  });
+
+  it('computes the correct result for an Addition', async () => {
+    render(<App />);
+    await userEvent.click(screen.getByText('6'));
+    await userEvent.click(screen.getByText('+'));
+    await userEvent.click(screen.getByText('3'));
+    await userEvent.click(screen.getByText('='));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('9');
+  });
+
+  it('computes the correct result for an Substraction', async () => {
+    render(<App />);
+    await userEvent.click(screen.getByText('6'));
+    await userEvent.click(screen.getByText('-'));
+    await userEvent.click(screen.getByText('3'));
+    await userEvent.click(screen.getByText('='));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('3');
   });
 });
