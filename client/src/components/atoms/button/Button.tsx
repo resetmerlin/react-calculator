@@ -8,6 +8,12 @@ interface IProps extends TButtonElementProps {
   purpose: 'modifiers' | 'operations' | 'digits';
 }
 
+/**
+ * Responsible for making Basic Atoms button
+ *
+ * - Responsible for change the type based on the props
+ * - Responsible for change the purpose based on the props
+ */
 export default function Button({
   children,
   className = '',

@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { Button } from './components';
-
+/**
+ *  Responsible for Conducting Business Logic of App
+ *
+ * - Manages calculation based on the sum state
+ * - Invoke digits, modifiers, operations function if user clicks a button
+ * - Responsible to keep a constraint on calculation
+ * - Responsible to manage rendering logic on components
+ *
+ */
 function App() {
   const [sum, setSum] = useState('');
 
