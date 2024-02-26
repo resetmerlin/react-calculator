@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button } from './components';
 /**
  *  Responsible for Conducting Business Logic of App
@@ -15,7 +15,7 @@ function App() {
   const resetSum = () => setSum('');
 
   /** Validate if sum length is longer than 3 */
-  const validateLength = () => {
+  const validateLength = useCallback(() => {
     const hash = new Map();
 
     [...sum].forEach((str) => hash.set(str, hash.get(str) + 1 || 1));
@@ -46,10 +46,10 @@ function App() {
     }
 
     return false;
-  };
+  }, [sum]);
 
   /** Validate if operation comes first than digits */
-  const validateOperation = () => {
+  const validateOperation = useCallback(() => {
     if (
       sum[sum.length - 1] === '/' ||
       sum[sum.length - 1] === 'X' ||
@@ -62,7 +62,7 @@ function App() {
     }
 
     return false;
-  };
+  }, [sum]);
 
   const addNine = () => {
     if (validateLength()) return;
@@ -131,7 +131,7 @@ function App() {
     setSum(`${sum}+`);
   };
 
-  const getResult = () => {
+  const getResult = useCallback(() => {
     const expression = sum.replace(/X/g, '*');
 
     const parts = expression.split(/(\+|-|\*|\/)/g);
@@ -171,7 +171,7 @@ function App() {
     if (result === Infinity || result === -Infinity) {
       setSum('오류');
     } else setSum(result.toString());
-  };
+  }, [sum]);
 
   const defaultValue = sum === '' ? 0 : sum;
 
